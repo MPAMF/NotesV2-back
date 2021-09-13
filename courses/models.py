@@ -11,7 +11,7 @@ class Course(TimeStampedModel):
     name = models.CharField(max_length=64)
     ects = models.FloatField()
     prof = models.CharField(max_length=64)
-    color = models.CharField(max_length=7, min_length=7)
+    color = models.CharField(max_length=7)
 
     def __str__(self):
         return self.name
@@ -22,7 +22,7 @@ class Note(TimeStampedModel):
     name = models.CharField(max_length=64)
     coeff = models.FloatField()
     course = models.ForeignKey(Course, related_name='courses', on_delete=models.CASCADE)
-    note = models.ForeignKey('self', related_name='note', default=None,
+    note = models.ForeignKey('self', related_name='notes', default=None,
                              blank=True, null=True, on_delete=models.CASCADE)
     activated = models.BooleanField(default=True)
 

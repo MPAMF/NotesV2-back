@@ -39,9 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # libs
-
     'rest_framework',
-    'django_extensions'
+    'django_extensions',
+
+    # apps
+    'courses.apps.CoursesConfig',
+    'user_sessions.apps.UserSessionsConfig',
 
 ]
 

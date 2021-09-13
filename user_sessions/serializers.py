@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.fields import SerializerMethodField
 
-from sessions.models import Session
+from .models import Session
 
 
 class SessionSerializer(serializers.ModelSerializer):
