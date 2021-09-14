@@ -21,7 +21,8 @@ class Note(TimeStampedModel):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=64)
     coeff = models.FloatField()
-    course = models.ForeignKey(Course, related_name='courses', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name='courses', on_delete=models.CASCADE, default=None, blank=True,
+                               null=True)
     note = models.ForeignKey('self', related_name='notes', default=None,
                              blank=True, null=True, on_delete=models.CASCADE)
 

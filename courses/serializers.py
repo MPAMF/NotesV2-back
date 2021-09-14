@@ -14,7 +14,7 @@ class NoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Note
-        fields = ('id', 'name', 'coeff', 'notes', 'course')
+        fields = ('id', 'name', 'coeff', 'notes')
 
     def get_fields(self):
         fields = super(NoteSerializer, self).get_fields()
@@ -29,8 +29,8 @@ class CourseSerializer(serializers.ModelSerializer):
     prof = serializers.CharField()
     color = serializers.CharField()
 
-    notes = NoteSerializer(many=True)
+    notes = NoteSerializer(many=True, source='courses')
 
     class Meta:
         model = Course
-        fields = ('id', 'name', 'ects', 'prof', 'color')
+        fields = ('id', 'name', 'ects', 'prof', 'color', 'notes')
