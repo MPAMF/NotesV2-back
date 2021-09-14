@@ -24,7 +24,6 @@ class Note(TimeStampedModel):
     course = models.ForeignKey(Course, related_name='courses', on_delete=models.CASCADE)
     note = models.ForeignKey('self', related_name='notes', default=None,
                              blank=True, null=True, on_delete=models.CASCADE)
-    activated = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

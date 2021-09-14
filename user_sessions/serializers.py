@@ -10,10 +10,11 @@ from .models import Session, SessionNote
 class SessionNoteSerializer(serializers.ModelSerializer):
     note = serializers.UUIDField()
     value = serializers.FloatField()
+    activated = serializers.BooleanField()
 
     class Meta:
         model = SessionNote
-        fields = ('uuid', 'note')
+        fields = ('uuid', 'note', 'activated')
 
     def create(self, validated_data):
         session_note = SessionNote.objects.create(**validated_data)
