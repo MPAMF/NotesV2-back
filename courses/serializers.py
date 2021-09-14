@@ -11,10 +11,11 @@ class NoteSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField()
     name = serializers.CharField()
     coeff = serializers.FloatField()
+    denominator = serializers.IntegerField()
 
     class Meta:
         model = Note
-        fields = ('id', 'name', 'coeff', 'notes')
+        fields = ('id', 'name', 'coeff', 'denominator', 'notes')
 
     def get_fields(self):
         fields = super(NoteSerializer, self).get_fields()
