@@ -9,6 +9,7 @@ from .models import Session
 
 
 class SessionViewSet(mixins.CreateModelMixin,
+                     mixins.RetrieveModelMixin,
                      viewsets.GenericViewSet):
     serializer_class = SessionSerializer
     queryset = Session.objects
@@ -28,3 +29,15 @@ class SessionViewSet(mixins.CreateModelMixin,
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def retrieve(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+
+        try:
+            serializer_instance = self.queryset.get(session_key=pk)
+        except Session.DoesNotExist:
+            raise NotFound('This session does not exist!')
+
+        serializer = SessionSerializer(serializer_instance)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)

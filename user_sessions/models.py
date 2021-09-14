@@ -9,8 +9,12 @@ from django_extensions.db.models import TimeStampedModel
 from courses.models import Note
 
 
+def generate_random_string():
+    return get_random_string(8).upper()
+
+
 class Session(TimeStampedModel):
-    session_key = models.TextField(default=get_random_string(8), max_length=8, editable=False)
+    session_key = models.TextField(default=generate_random_string, max_length=8, editable=False, unique=True)
 
     def __str__(self):
         return self.session_key

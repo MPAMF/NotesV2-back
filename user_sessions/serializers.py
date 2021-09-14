@@ -23,12 +23,12 @@ class SessionNoteSerializer(serializers.ModelSerializer):
 
 class SessionSerializer(serializers.ModelSerializer):
     session_key = serializers.CharField(min_length=8, max_length=8, read_only=True)
-    notes = SessionNoteSerializer(many=True)
+    notes = SessionNoteSerializer(many=True, read_only=True)
 
     class Meta:
         model = Session
-        fields = ('id', 'session_key', 'notes')
+        fields = ('session_key', 'notes')
 
     def create(self, validated_data):
-        session = Session.objects.create(**validated_data)
+        session = Session.objects.create()
         return session
