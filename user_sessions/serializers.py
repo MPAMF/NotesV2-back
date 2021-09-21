@@ -14,7 +14,7 @@ class SessionNoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SessionNote
-        fields = ('uuid', 'note', 'activated')
+        fields = ('note', 'value', 'activated')
 
     def create(self, validated_data):
         session_note = SessionNote.objects.create(**validated_data)
@@ -23,12 +23,31 @@ class SessionNoteSerializer(serializers.ModelSerializer):
 
 class SessionSerializer(serializers.ModelSerializer):
     session_key = serializers.CharField(min_length=8, max_length=8, read_only=True)
-    notes = SessionNoteSerializer(many=True, read_only=True)
+    notes = SessionNoteSerializer(many=True)
 
     class Meta:
         model = Session
-        fields = ('session_key', 'notes')
+        fields = ('id', 'session_key', 'notes')
 
     def create(self, validated_data):
         session = Session.objects.create()
         return session
+
+    def update(self, instance, validated_data):
+        notes = validated_data.pop('notes')
+
+        for note in notes:
+            SessionNote.objects.update_or_create(
+                session_id=self.context['session_id'],
+                note_id=note['note'],
+                defaults={
+                    'value': note['value'],
+                    'activated': note['activated']
+                }
+            )
+
+        return instance
+
+
+class RequestSessionNotesSerializer(serializers.Serializer):
+    notes = SessionNoteSerializer(many=True)

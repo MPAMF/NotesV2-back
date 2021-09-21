@@ -21,7 +21,7 @@ class Session(TimeStampedModel):
 
 
 class SessionNote(TimeStampedModel):
-    session = models.ForeignKey(Session, related_name='sessions', on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, related_name='notes', on_delete=models.CASCADE)
     note = models.ForeignKey(Note, related_name='courses', on_delete=models.CASCADE)
     value = models.FloatField(default=0)
     activated = models.BooleanField(default=True)
