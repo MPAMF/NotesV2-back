@@ -8,7 +8,7 @@ from .models import Session, SessionNote
 
 
 class SessionNoteSerializer(serializers.ModelSerializer):
-    note = serializers.UUIDField(source='note.id')
+    note = serializers.UUIDField(source='note.id', format='hex_verbose')
     value = serializers.FloatField()
     activated = serializers.BooleanField()
 
