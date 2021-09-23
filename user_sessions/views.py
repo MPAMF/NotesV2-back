@@ -4,7 +4,7 @@ from rest_framework.exceptions import NotFound, PermissionDenied, ParseError, Va
 
 from rest_framework.response import Response
 
-from .serializers import SessionSerializer, RequestSessionNotesSerializer
+from .serializers import SessionSerializer
 from .models import Session
 
 

@@ -8,7 +8,7 @@ from .models import Session, SessionNote
 
 
 class SessionNoteSerializer(serializers.ModelSerializer):
-    note = serializers.UUIDField()
+    note = serializers.UUIDField(source='note.id')
     value = serializers.FloatField()
     activated = serializers.BooleanField()
 
@@ -27,7 +27,7 @@ class SessionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Session
-        fields = ('id', 'session_key', 'notes')
+        fields = ('session_key', 'notes')
 
     def create(self, validated_data):
         session = Session.objects.create()
@@ -47,7 +47,3 @@ class SessionSerializer(serializers.ModelSerializer):
             )
 
         return instance
-
-
-class RequestSessionNotesSerializer(serializers.Serializer):
-    notes = SessionNoteSerializer(many=True)
