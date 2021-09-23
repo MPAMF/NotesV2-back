@@ -1,14 +1,10 @@
-from django.utils.crypto import get_random_string
-
 from rest_framework import serializers
-from rest_framework.exceptions import PermissionDenied
-from rest_framework.fields import SerializerMethodField
 
 from .models import Session, SessionNote
 
 
 class SessionNoteSerializer(serializers.ModelSerializer):
-    note = serializers.UUIDField(source='note.id', format='hex_verbose')
+    note = serializers.UUIDField(format='hex_verbose', source='note.id')
     value = serializers.FloatField()
     activated = serializers.BooleanField()
 
@@ -19,6 +15,9 @@ class SessionNoteSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         session_note = SessionNote.objects.create(**validated_data)
         return session_note
+
+    def validate_note(self, value):
+        return value.id if hasattr(value, 'id') else value
 
 
 class SessionSerializer(serializers.ModelSerializer):
