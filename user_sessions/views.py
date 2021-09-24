@@ -1,3 +1,5 @@
+from django.db.models import TextField
+from django.db.models.functions import Cast
 from rest_framework import viewsets, status, generics, mixins, filters
 from rest_framework.decorators import action
 from rest_framework.exceptions import NotFound, PermissionDenied, ParseError, ValidationError
