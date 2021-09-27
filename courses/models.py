@@ -22,10 +22,12 @@ class Note(TimeStampedModel):
     name = models.CharField(max_length=64)
     coeff = models.FloatField()
     denominator = models.IntegerField(default=20)
+    weight = models.FloatField(default=0)
     course = models.ForeignKey(Course, related_name='courses', on_delete=models.CASCADE, default=None, blank=True,
                                null=True)
     note = models.ForeignKey('self', related_name='notes', default=None,
                              blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        course = self.course if self.course is not None else self.note.course
+        return self.name + ' (' + str(course) + ')'
