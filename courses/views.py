@@ -1,6 +1,7 @@
 # Create your views here.
 from rest_framework import mixins, viewsets
 from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle
 
 from courses.models import Course
 from courses.serializers import CourseSerializer
@@ -12,6 +13,7 @@ class CourseViewSet(mixins.ListModelMixin,
                     viewsets.GenericViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects
+    throttle_classes = [AnonRateThrottle]
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

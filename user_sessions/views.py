@@ -1,13 +1,10 @@
-from django.db.models import TextField
-from django.db.models.functions import Cast
-from rest_framework import viewsets, status, generics, mixins, filters
-from rest_framework.decorators import action
-from rest_framework.exceptions import NotFound, PermissionDenied, ParseError, ValidationError
-
+from rest_framework import viewsets, status, mixins
+from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle
 
-from .serializers import SessionSerializer
 from .models import Session
+from .serializers import SessionSerializer
 
 
 class SessionViewSet(mixins.CreateModelMixin,
@@ -16,6 +13,7 @@ class SessionViewSet(mixins.CreateModelMixin,
                      viewsets.GenericViewSet):
     serializer_class = SessionSerializer
     queryset = Session.objects
+    throttle_classes = [AnonRateThrottle]
 
     def create(self, request, *args, **kwargs):
         serializer_context = {
