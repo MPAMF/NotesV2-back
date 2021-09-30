@@ -11,7 +11,9 @@ class Course(TimeStampedModel):
     name = models.CharField(max_length=64)
     ects = models.FloatField()
     prof = models.CharField(max_length=64)
+    weight = models.FloatField(default=0)
     color = models.CharField(max_length=7)
+    dark_color = models.CharField(max_length=7, default='#7417D5')
 
     def __str__(self):
         return self.name

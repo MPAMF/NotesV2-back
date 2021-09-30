@@ -29,10 +29,12 @@ class CourseSerializer(serializers.ModelSerializer):
     name = serializers.CharField()
     ects = serializers.FloatField()
     prof = serializers.CharField()
+    weight = serializers.FloatField()
     color = serializers.CharField()
+    dark_color = serializers.CharField()
 
     notes = NoteSerializer(many=True, source='courses')
 
     class Meta:
         model = Course
-        fields = ('id', 'name', 'ects', 'prof', 'color', 'notes')
+        fields = ('id', 'name', 'ects', 'prof', 'weight', 'color', 'dark_color', 'notes')
