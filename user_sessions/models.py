@@ -1,12 +1,9 @@
-import uuid
-
 from django.db import models
 from django.utils.crypto import get_random_string
-
 # Create your models here.
 from django_extensions.db.models import TimeStampedModel
 
-from courses.models import Note
+from courses.models import Note, TpGroup
 
 
 def generate_random_string():
@@ -15,6 +12,7 @@ def generate_random_string():
 
 class Session(TimeStampedModel):
     session_key = models.TextField(default=generate_random_string, max_length=8, editable=False, unique=True)
+    tp_group = models.ForeignKey(TpGroup, related_name='session_tp_groups', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.session_key
