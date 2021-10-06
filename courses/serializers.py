@@ -65,9 +65,10 @@ class TdGroupSerializer(serializers.ModelSerializer):
 
 class SemesterSerializer(serializers.ModelSerializer):
     number = serializers.IntegerField()
+    activated = serializers.BooleanField()
     courses = CourseSerializer(many=True, source='course_semesters')
     td_groups = TdGroupSerializer(many=True, source='semesters')
 
     class Meta:
         model = Semester
-        fields = ('number', 'courses', 'td_groups')
+        fields = ('number', 'activated', 'courses', 'td_groups')

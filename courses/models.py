@@ -7,6 +7,7 @@ from django_extensions.db.models import TimeStampedModel
 
 class Semester(TimeStampedModel):
     number = models.IntegerField(default=0)
+    activated = models.BooleanField(default=False)
 
     def __str__(self):
         return 'Semester %s' % self.number
