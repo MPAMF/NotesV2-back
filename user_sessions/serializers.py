@@ -1,8 +1,4 @@
-import uuid
-
-from django.core import exceptions
 from rest_framework import serializers
-from rest_framework.fields import UUIDField
 
 from .models import Session, SessionNote, SessionSelectedCourse
 
@@ -18,22 +14,6 @@ class SessionSelectedCourseSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         selected_course = SessionSelectedCourse.objects.create(**validated_data)
         return selected_course
-
-    def update(self, instance, validated_data):
-        notes = validated_data.pop('notes')
-
-        for note in notes:
-            print(note)
-            SessionNote.objects.update_or_create(
-                session_id=self.context['session_id'],
-                note_id=note['note']['id'],
-                defaults={
-                    'value': note['value'],
-                    'activated': note['activated']
-                }
-            )
-
-        return instance
 
 
 class SessionNoteSerializer(serializers.ModelSerializer):
@@ -56,10 +36,11 @@ class SessionNoteSerializer(serializers.ModelSerializer):
 class SessionSerializer(serializers.ModelSerializer):
     session_key = serializers.CharField(min_length=8, max_length=8, read_only=True)
     notes = SessionNoteSerializer(many=True)
+    selected_courses = SessionSelectedCourseSerializer(many=True, required=False)
 
     class Meta:
         model = Session
-        fields = ('session_key', 'notes')
+        fields = ('session_key', 'notes', 'selected_courses')
 
     def create(self, validated_data):
         session = Session.objects.create()
@@ -69,13 +50,23 @@ class SessionSerializer(serializers.ModelSerializer):
         notes = validated_data.pop('notes')
 
         for note in notes:
-            print(note)
             SessionNote.objects.update_or_create(
                 session_id=self.context['session_id'],
                 note_id=note['note']['id'],
                 defaults={
                     'value': note['value'],
                     'activated': note['activated']
+                }
+            )
+
+        selected_courses = [] if 'selected_courses' in validated_data else validated_data.pop('selected_courses')
+
+        for selected_course in selected_courses:
+            SessionSelectedCourse.objects.update_or_create(
+                session_id=self.context['session_id'],
+                note_id=selected_course['note']['id'],
+                defaults={
+                    'activated': selected_course['activated']
                 }
             )
 
