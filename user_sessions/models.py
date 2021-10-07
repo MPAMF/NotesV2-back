@@ -3,7 +3,7 @@ from django.utils.crypto import get_random_string
 # Create your models here.
 from django_extensions.db.models import TimeStampedModel
 
-from courses.models import Note, TpGroup
+from courses.models import Note, TpGroup, Course
 
 
 def generate_random_string():
@@ -26,3 +26,9 @@ class SessionNote(TimeStampedModel):
 
     def __str__(self):
         return '%s : %s' % (self.note.id, self.value)
+
+
+class SessionSelectedCourse(TimeStampedModel):
+    session = models.ForeignKey(Session, related_name='selected_courses', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name='session_courses', on_delete=models.CASCADE)
+    activated = models.BooleanField(default=False)

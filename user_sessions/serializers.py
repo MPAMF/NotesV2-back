@@ -4,7 +4,36 @@ from django.core import exceptions
 from rest_framework import serializers
 from rest_framework.fields import UUIDField
 
-from .models import Session, SessionNote
+from .models import Session, SessionNote, SessionSelectedCourse
+
+
+class SessionSelectedCourseSerializer(serializers.ModelSerializer):
+    course = serializers.UUIDField(format='hex_verbose', source='course.id')
+    activated = serializers.BooleanField()
+
+    class Meta:
+        model = SessionSelectedCourse
+        fields = ('course', 'activated')
+
+    def create(self, validated_data):
+        selected_course = SessionSelectedCourse.objects.create(**validated_data)
+        return selected_course
+
+    def update(self, instance, validated_data):
+        notes = validated_data.pop('notes')
+
+        for note in notes:
+            print(note)
+            SessionNote.objects.update_or_create(
+                session_id=self.context['session_id'],
+                note_id=note['note']['id'],
+                defaults={
+                    'value': note['value'],
+                    'activated': note['activated']
+                }
+            )
+
+        return instance
 
 
 class SessionNoteSerializer(serializers.ModelSerializer):
