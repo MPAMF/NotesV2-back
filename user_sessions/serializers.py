@@ -47,7 +47,7 @@ class SessionSerializer(serializers.ModelSerializer):
         return session
 
     def update(self, instance, validated_data):
-        notes = validated_data.pop('notes')
+        notes = validated_data.pop('notes') if 'notes' in validated_data else []
 
         for note in notes:
             SessionNote.objects.update_or_create(
@@ -59,7 +59,7 @@ class SessionSerializer(serializers.ModelSerializer):
                 }
             )
 
-        selected_courses = [] if 'selected_courses' in validated_data else validated_data.pop('selected_courses')
+        selected_courses = validated_data.pop('selected_courses') if 'selected_courses' in validated_data else []
 
         for selected_course in selected_courses:
             SessionSelectedCourse.objects.update_or_create(
