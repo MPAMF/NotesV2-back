@@ -22,6 +22,7 @@ class TdGroup(TimeStampedModel):
 
 
 class TpGroup(TimeStampedModel):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     number = models.IntegerField(default=0)
     td_group = models.ForeignKey(TdGroup, related_name='td_groups', on_delete=models.CASCADE)
 

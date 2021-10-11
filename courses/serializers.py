@@ -51,7 +51,7 @@ class TpGroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TpGroup
-        fields = ('number', 'exam_dates')
+        fields = ('id', 'number', 'exam_dates')
 
 
 class TdGroupSerializer(serializers.ModelSerializer):

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from courses.serializers import TpGroupSerializer
 from .models import Session, SessionNote, SessionSelectedCourse
 
 
@@ -37,10 +38,11 @@ class SessionSerializer(serializers.ModelSerializer):
     session_key = serializers.CharField(min_length=8, max_length=8, read_only=True)
     notes = SessionNoteSerializer(many=True)
     selected_courses = SessionSelectedCourseSerializer(many=True, required=False)
+    selected_tp = TpGroupSerializer(required=False, default=None)
 
     class Meta:
         model = Session
-        fields = ('session_key', 'notes', 'selected_courses')
+        fields = ('session_key', 'notes', 'selected_courses', 'selected_tp')
 
     def create(self, validated_data):
         session = Session.objects.create()
