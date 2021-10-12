@@ -66,7 +66,7 @@ class SessionSerializer(serializers.ModelSerializer):
         for selected_course in selected_courses:
             SessionSelectedCourse.objects.update_or_create(
                 session_id=self.context['session_id'],
-                note_id=selected_course['note']['id'],
+                course_id=selected_course['course']['id'],
                 defaults={
                     'activated': selected_course['activated']
                 }
