@@ -52,7 +52,8 @@ class SessionSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         notes = validated_data.pop('notes') if 'notes' in validated_data else []
 
-        instance.tp_group = validated_data['tp_group']
+        if 'tp_group' in validated_data:
+            instance.tp_group = validated_data['tp_group']
 
         for note in notes:
             SessionNote.objects.update_or_create(
