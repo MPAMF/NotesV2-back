@@ -12,7 +12,8 @@ def generate_random_string():
 
 class Session(TimeStampedModel):
     session_key = models.TextField(default=generate_random_string, max_length=8, editable=False, unique=True)
-    tp_group = models.ForeignKey(TpGroup, related_name='session_tp_groups', on_delete=models.CASCADE, null=True)
+    tp_group = models.ForeignKey(TpGroup, related_name='session_tp_groups', on_delete=models.CASCADE, blank=True,
+                                 null=True)
 
     def __str__(self):
         return self.session_key
