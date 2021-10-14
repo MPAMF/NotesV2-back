@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 # Create your models here.
+from django.utils.timezone import now
 from django_extensions.db.models import TimeStampedModel
 
 
@@ -61,10 +62,32 @@ class Note(TimeStampedModel):
         return self.name + ' (' + str(course) + ')'
 
 
-class ExamDate(TimeStampedModel):
-    date = models.DateTimeField()
-    note = models.ForeignKey(Note, related_name='date_notes', on_delete=models.CASCADE)
-    tp_group = models.ForeignKey(TpGroup, related_name='tp_groups', on_delete=models.CASCADE)
+class LocalisationImage(models.Model):
+    path = models.CharField(max_length=256)
+    description = models.TextField()
 
     def __str__(self):
-        return '%s %s' % (str(self.note), str(self.tp_group))
+        return '%s' % self.path
+
+
+class Localisation(models.Model):
+    name = models.CharField(max_length=64)
+    x = models.FloatField(default=0)
+    y = models.FloatField(default=0)
+    image = models.ForeignKey(LocalisationImage, related_name='localisation_images', null=True,
+                              on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s' % self.name
+
+
+class ExamDate(TimeStampedModel):
+    start = models.DateTimeField(default=now)
+    end = models.DateTimeField(default=now)
+    localisation = models.ForeignKey(Localisation, related_name='date_localisations', on_delete=models.CASCADE,
+                                     null=True)
+    note = models.ForeignKey(Note, related_name='date_notes', on_delete=models.CASCADE)
+    tp_group = models.ForeignKey(TpGroup, related_name='date_tp_groups', on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return '%s' % (str(self.note))

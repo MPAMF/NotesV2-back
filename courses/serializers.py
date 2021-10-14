@@ -48,11 +48,10 @@ class ExamDateSerializer(serializers.ModelSerializer):
 
 class TpGroupSerializer(serializers.ModelSerializer):
     number = serializers.IntegerField()
-    exam_dates = ExamDateSerializer(many=True, source='tp_groups')
 
     class Meta:
         model = TpGroup
-        fields = ('id', 'number', 'exam_dates')
+        fields = ('id', 'number')
 
 
 class TdGroupSerializer(serializers.ModelSerializer):
