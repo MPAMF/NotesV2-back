@@ -87,7 +87,8 @@ class ExamDate(TimeStampedModel):
     localisation = models.ForeignKey(Localisation, related_name='date_localisations', on_delete=models.CASCADE,
                                      null=True)
     note = models.ForeignKey(Note, related_name='date_notes', on_delete=models.CASCADE)
-    tp_group = models.ForeignKey(TpGroup, related_name='date_tp_groups', on_delete=models.CASCADE, null=True, blank=True)
+    tp_group = models.ForeignKey(TpGroup, related_name='date_tp_groups', on_delete=models.CASCADE, null=True,
+                                 blank=True)
 
     def __str__(self):
-        return '%s' % (str(self.note))
+        return ('%s' + (' %s' % str(self.tp_group) if self.tp_group is not None else '')) % (str(self.note))
