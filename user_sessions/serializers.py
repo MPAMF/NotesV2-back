@@ -39,7 +39,7 @@ class SessionSerializer(serializers.ModelSerializer):
     session_key = serializers.CharField(min_length=8, max_length=8, read_only=True)
     notes = SessionNoteSerializer(many=True)
     selected_courses = SessionSelectedCourseSerializer(many=True, required=False)
-    tp_group = serializers.PrimaryKeyRelatedField(queryset=TpGroup.objects.all())
+    tp_group = serializers.PrimaryKeyRelatedField(queryset=TpGroup.objects.all(), allow_null=True)
 
     class Meta:
         model = Session
