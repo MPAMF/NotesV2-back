@@ -28,12 +28,13 @@ class CourseSerializer(serializers.ModelSerializer):
     weight = serializers.FloatField()
     color = serializers.CharField()
     dark_color = serializers.CharField()
+    optional = serializers.BooleanField()
 
     notes = NoteSerializer(many=True, source='courses')
 
     class Meta:
         model = Course
-        fields = ('id', 'name', 'ects', 'prof', 'weight', 'color', 'dark_color', 'notes')
+        fields = ('id', 'name', 'ects', 'prof', 'weight', 'color', 'dark_color', 'optional', 'notes')
 
 
 class ExamDateSerializer(serializers.ModelSerializer):

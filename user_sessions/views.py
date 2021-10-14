@@ -57,7 +57,8 @@ class SessionViewSet(mixins.CreateModelMixin,
         serializer = SessionSerializer(
             serializer_instance,
             context=serializer_context,
-            data=request.data
+            data=request.data,
+            partial=True
         )
 
         serializer.is_valid(raise_exception=True)
