@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'corsheaders',
+    'drf_recaptcha',
 
     # apps
     'courses.apps.CoursesConfig',
@@ -144,3 +145,5 @@ REST_FRAMEWORK = {
         'anon': '35/minute'
     }
 }
+
+DRF_RECAPTCHA_SECRET_KEY = "secret key here"

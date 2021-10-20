@@ -34,6 +34,7 @@ class TpGroup(TimeStampedModel):
 class Course(TimeStampedModel):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     name = models.CharField(max_length=64)
+    acronym = models.CharField(max_length=16, default="")
     ects = models.FloatField()
     prof = models.CharField(max_length=64)
     weight = models.FloatField(default=0)

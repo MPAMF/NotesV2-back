@@ -1,3 +1,4 @@
+from drf_recaptcha.fields import ReCaptchaV3Field
 from rest_framework import serializers
 
 from courses.models import TpGroup
@@ -37,13 +38,15 @@ class SessionNoteSerializer(serializers.ModelSerializer):
 
 class SessionSerializer(serializers.ModelSerializer):
     session_key = serializers.CharField(min_length=8, max_length=8, read_only=True)
+    planning_url = serializers.URLField(required=False)
     notes = SessionNoteSerializer(many=True)
     selected_courses = SessionSelectedCourseSerializer(many=True, required=False)
     tp_group = serializers.PrimaryKeyRelatedField(queryset=TpGroup.objects.all(), allow_null=True)
+    recaptcha = ReCaptchaV3Field(action="sessions", write_only=True)
 
     class Meta:
         model = Session
-        fields = ('session_key', 'notes', 'selected_courses', 'tp_group')
+        fields = ('session_key', 'planning_url', 'notes', 'selected_courses', 'tp_group', 'recaptcha')
 
     def create(self, validated_data):
         session = Session.objects.create()

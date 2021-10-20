@@ -1,5 +1,6 @@
 # Created by https://www.gitignore.io
 .idea/
+notesV2/prod_settings.py
 
 ### OSX ###
 .DS_Store

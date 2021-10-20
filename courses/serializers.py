@@ -36,6 +36,7 @@ class NoteSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField()
     name = serializers.CharField()
+    acronym = serializers.CharField()
     ects = serializers.FloatField()
     prof = serializers.CharField()
     weight = serializers.FloatField()
@@ -47,7 +48,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ('id', 'name', 'ects', 'prof', 'weight', 'color', 'dark_color', 'optional', 'notes')
+        fields = ('id', 'name', 'acronym', 'ects', 'prof', 'weight', 'color', 'dark_color', 'optional', 'notes')
 
 
 class TpGroupSerializer(serializers.ModelSerializer):
