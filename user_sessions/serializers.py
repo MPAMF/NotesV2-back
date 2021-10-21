@@ -2,7 +2,6 @@ from drf_recaptcha.fields import ReCaptchaV3Field
 from rest_framework import serializers
 
 from courses.models import TpGroup
-from courses.serializers import TpGroupSerializer
 from .models import Session, SessionNote, SessionSelectedCourse
 
 
@@ -54,6 +53,9 @@ class SessionSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         notes = validated_data.pop('notes') if 'notes' in validated_data else []
+
+        if 'planning_url' in validated_data:
+            instance.planning_url = validated_data['planning_url']
 
         if 'tp_group' in validated_data:
             instance.tp_group = validated_data['tp_group']
