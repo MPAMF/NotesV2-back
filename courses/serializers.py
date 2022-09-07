@@ -104,4 +104,4 @@ class LocalisationImageSerializer(serializers.ModelSerializer):
 class DataSerializer(serializers.Serializer):
     localisations = LocalisationSerializer(many=True)
     localisation_images = LocalisationImageSerializer(many=True)
-    semesters = SemesterSerializer(many=True)
+    degrees = DegreeSerializer(many=True)
