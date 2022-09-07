@@ -73,7 +73,7 @@ class SemesterSerializer(serializers.ModelSerializer):
 class DegreeSerializer(serializers.ModelSerializer):
     name = serializers.CharField()
     acronym = serializers.CharField()
-    semesters = SemesterSerializer(many=True, source='semesters')
+    semesters = SemesterSerializer(many=True, source='semester_degree')
 
     class Meta:
         model = Degree
