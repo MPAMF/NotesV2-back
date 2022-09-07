@@ -1,18 +1,17 @@
 from rest_framework import serializers
 
-from courses.models import Course, Note, TpGroup, TdGroup, Semester, ExamDate, Localisation, LocalisationImage
+from courses.models import Course, Note, Degree, Semester, ExamDate, Localisation, LocalisationImage
 
 
 class ExamDateSerializer(serializers.ModelSerializer):
     start = serializers.DateTimeField()
     end = serializers.DateTimeField()
-    tp_group = serializers.CharField(source='tp_group.id', allow_null=True)
     localisation = serializers.IntegerField(source='localisation.id', allow_null=True)
     note = serializers.CharField(source='note.id')
 
     class Meta:
         model = ExamDate
-        fields = ('start', 'end', 'tp_group', 'localisation', 'note')
+        fields = ('start', 'end', 'localisation', 'note')
 
 
 class NoteSerializer(serializers.ModelSerializer):
@@ -51,33 +50,15 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'acronym', 'ects', 'prof', 'weight', 'color', 'dark_color', 'optional', 'notes')
 
 
-class TpGroupSerializer(serializers.ModelSerializer):
-    number = serializers.IntegerField()
-
-    class Meta:
-        model = TpGroup
-        fields = ('id', 'number')
-
-
-class TdGroupSerializer(serializers.ModelSerializer):
-    number = serializers.IntegerField()
-    tp_groups = TpGroupSerializer(many=True, source='td_groups')
-
-    class Meta:
-        model = TdGroup
-        fields = ('number', 'tp_groups')
-
-
 class SemesterSerializer(serializers.ModelSerializer):
     number = serializers.IntegerField()
     activated = serializers.BooleanField()
     courses = CourseSerializer(many=True, source='course_semesters')
-    td_groups = TdGroupSerializer(many=True, source='semesters')
     exam_dates = serializers.SerializerMethodField()
 
     class Meta:
         model = Semester
-        fields = ('number', 'activated', 'courses', 'td_groups', 'exam_dates')
+        fields = ('number', 'activated', 'courses', 'exam_dates')
 
     def get_exam_dates(self, obj):
         if not hasattr(obj, 'id') or obj.id is None:
@@ -88,6 +69,15 @@ class SemesterSerializer(serializers.ModelSerializer):
             result.append(ExamDateSerializer(exam_date).data)
         return result
 
+
+class DegreeSerializer(serializers.ModelSerializer):
+    name = serializers.CharField()
+    acronym = serializers.CharField()
+    semesters = SemesterSerializer(many=True, source='semesters')
+
+    class Meta:
+        model = Degree
+        fields = ('name', 'acronym', 'semesters')
 
 class LocalisationSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()

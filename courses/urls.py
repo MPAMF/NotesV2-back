@@ -3,7 +3,7 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'', views.SemesterViewSet, basename='courses')
+router.register(r'', views.DegreeViewSet, basename='courses')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

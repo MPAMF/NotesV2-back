@@ -3,7 +3,7 @@ from django.utils.crypto import get_random_string
 # Create your models here.
 from django_extensions.db.models import TimeStampedModel
 
-from courses.models import Note, TpGroup, Course
+from courses.models import Note, Course, Degree
 
 
 def generate_random_string():
@@ -11,9 +11,11 @@ def generate_random_string():
 
 
 class Session(TimeStampedModel):
-    session_key = models.TextField(default=generate_random_string, max_length=8, editable=False, unique=True)
-    tp_group = models.ForeignKey(TpGroup, related_name='session_tp_groups', on_delete=models.CASCADE, blank=True,
-                                 null=True)
+    session_key = models.TextField(default=generate_random_string,
+                                   max_length=8, editable=False, unique=True)
+    degree = models.ForeignKey(Degree, related_name='session_degrees',
+                               on_delete=models.CASCADE, blank=True,
+                               null=True)
     planning_url = models.URLField(default=None, null=True)
 
     def __str__(self):
@@ -21,8 +23,10 @@ class Session(TimeStampedModel):
 
 
 class SessionNote(TimeStampedModel):
-    session = models.ForeignKey(Session, related_name='notes', on_delete=models.CASCADE)
-    note = models.ForeignKey(Note, related_name='courses', on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, related_name='notes',
+                                on_delete=models.CASCADE)
+    note = models.ForeignKey(Note, related_name='courses',
+                             on_delete=models.CASCADE)
     value = models.FloatField(default=0)
     activated = models.BooleanField(default=True)
 
@@ -31,6 +35,8 @@ class SessionNote(TimeStampedModel):
 
 
 class SessionSelectedCourse(TimeStampedModel):
-    session = models.ForeignKey(Session, related_name='selected_courses', on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, related_name='session_courses', on_delete=models.CASCADE)
+    session = models.ForeignKey(Session, related_name='selected_courses',
+                                on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name='session_courses',
+                               on_delete=models.CASCADE)
     activated = models.BooleanField(default=False)

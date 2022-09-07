@@ -3,16 +3,16 @@ from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 from rest_framework.throttling import AnonRateThrottle
 
-from courses.models import Semester, Localisation, LocalisationImage, ExamDate
+from courses.models import Localisation, LocalisationImage, Degree
 from courses.serializers import DataSerializer
 
 
-class SemesterViewSet(mixins.ListModelMixin,
-                      viewsets.GenericViewSet):
+class DegreeViewSet(mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
     throttle_classes = [AnonRateThrottle]
 
     def list(self, request, *args, **kwargs):
-        data = {'semesters': Semester.objects.all(),
+        data = {'degrees': Degree.objects.all(),
                 'localisations': Localisation.objects.all(),
                 'localisation_images': LocalisationImage.objects.all()
                 }
