@@ -51,14 +51,14 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 class SemesterSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
     number = serializers.IntegerField()
-    activated = serializers.BooleanField()
     courses = CourseSerializer(many=True, source='course_semesters')
     exam_dates = serializers.SerializerMethodField()
 
     class Meta:
         model = Semester
-        fields = ('number', 'activated', 'courses', 'exam_dates')
+        fields = ('id', 'number', 'courses', 'exam_dates')
 
     def get_exam_dates(self, obj):
         if not hasattr(obj, 'id') or obj.id is None:

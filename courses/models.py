@@ -16,7 +16,6 @@ class Degree(models.Model):
 
 class Semester(TimeStampedModel):
     number = models.IntegerField(default=0)
-    activated = models.BooleanField(default=False)
     degree = models.ForeignKey(Degree, related_name='semester_degree',
                                on_delete=models.CASCADE, null=True,
                                default=None)
