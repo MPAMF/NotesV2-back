@@ -21,7 +21,7 @@ class Semester(TimeStampedModel):
                                default=None)
 
     def __str__(self):
-        return 'Semester %s' % self.number
+        return self.degree.name + ' Semestre %s' % self.number
 
 
 class Course(TimeStampedModel):
