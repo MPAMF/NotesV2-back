@@ -54,6 +54,9 @@ class SessionSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         notes = validated_data.pop('notes') if 'notes' in validated_data else []
 
+        if 'semester' in validated_data:
+            instance.semester = validated_data['semester']
+
         if 'planning_url' in validated_data:
             instance.planning_url = validated_data['planning_url']
 
