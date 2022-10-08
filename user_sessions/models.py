@@ -3,7 +3,7 @@ from django.utils.crypto import get_random_string
 # Create your models here.
 from django_extensions.db.models import TimeStampedModel
 
-from courses.models import Note, Course, Degree
+from courses.models import Note, Course, Degree, Semester
 
 
 def generate_random_string():
@@ -13,7 +13,7 @@ def generate_random_string():
 class Session(TimeStampedModel):
     session_key = models.TextField(default=generate_random_string,
                                    max_length=8, editable=False, unique=True)
-    degree = models.ForeignKey(Degree, related_name='session_degrees',
+    semester = models.ForeignKey(Semester, related_name='session_semesters',
                                on_delete=models.CASCADE, blank=True,
                                null=True)
     planning_url = models.URLField(default=None, null=True)
