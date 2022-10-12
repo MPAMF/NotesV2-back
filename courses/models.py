@@ -40,7 +40,10 @@ class Course(TimeStampedModel):
                                  on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.name
+        if self.semester is not None:
+            return "(%s) %s" % (self.semester, self.name)
+        else:
+            return self.name
 
 
 class Note(TimeStampedModel):
