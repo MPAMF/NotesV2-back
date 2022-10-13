@@ -7,10 +7,12 @@ from courses.models import Note, Course, Semester, Degree, ExamDate, \
 
 class CourseAdmin(admin.ModelAdmin):
     ordering = ('semester',)
+    search_fields = ['semester__degree__name']
 
 
 class NoteAdmin(admin.ModelAdmin):
     ordering = ('course',)
+    search_fields = ['course__semester__degree__name']
 
 
 admin.site.register(Semester)
